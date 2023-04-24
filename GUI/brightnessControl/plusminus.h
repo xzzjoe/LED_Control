@@ -7,6 +7,9 @@
 #include <QPushButton>
 #include <QProgressBar>
 #include <QLabel>
+#include <iostream>
+#include <fstream>
+#include <string>
 
 
 class PlusMinus : public QWidget {
@@ -24,6 +27,10 @@ private:
     QLabel *lbl;
     QProgressBar *bar;
     int val;
+    //Changes brightness increment of push buttons
     const int brightIncr = 5;
+    //Changes filename that brightness values are written to
+    const char* fileName = "test.txt";
+    void updateVal();
 };
 #endif // PLUSMINUS_H

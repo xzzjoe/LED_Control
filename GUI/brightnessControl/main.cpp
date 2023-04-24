@@ -7,7 +7,7 @@ int main(int argc, char *argv[]) {
     PlusMinus window;
 
     window.resize(480, 272);
-    window.setWindowTitle("Plus minus");
+    window.setWindowTitle("Brightness Control");
     window.show();
 
     return app.exec();

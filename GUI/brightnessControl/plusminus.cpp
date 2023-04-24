@@ -36,14 +36,21 @@ PlusMinus::PlusMinus(QWidget *parent)
 void PlusMinus::OnPlus() {
 
     if(val+brightIncr<=100) val+=brightIncr;
-    lbl->setText("Brightness: " + QString::number(val) + "%");
-    bar->setValue(val);
+    updateVal();
 }
 
 void PlusMinus::OnMinus() {
 
     if(val-brightIncr>=0)val-=brightIncr;
+    updateVal();
+}
+
+void PlusMinus::updateVal(){
     lbl->setText("Brightness: " + QString::number(val) + "%");
     bar->setValue(val);
+    std::ofstream km;
+    km.open(fileName);
+    km << std::to_string(val);
+    km.close();
 }
 
