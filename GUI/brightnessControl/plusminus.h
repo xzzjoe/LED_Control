@@ -5,7 +5,9 @@
 #include <QWidget>
 #include <QApplication>
 #include <QPushButton>
+#include <QProgressBar>
 #include <QLabel>
+
 
 class PlusMinus : public QWidget {
 
@@ -20,6 +22,8 @@ private slots:
 
 private:
     QLabel *lbl;
-    QLabel *bright;
+    QProgressBar *bar;
+    int val;
+    const int brightIncr = 5;
 };
 #endif // PLUSMINUS_H
