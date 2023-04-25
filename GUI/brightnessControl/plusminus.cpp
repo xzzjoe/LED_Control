@@ -1,4 +1,4 @@
-
+//Credit to https://zetcode.com/gui/qt5/firstprograms/ for the initial button plus minus code
 #include "plusminus.h"
 #include <QGridLayout>
 
