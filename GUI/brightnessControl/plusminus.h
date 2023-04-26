@@ -13,6 +13,9 @@
 #include <QProcess>
 #include <QTimer>
 #include <QFileSystemWatcher>
+#include <unistd.h>
+#include <poll.h>
+#include <fcntl.h>
 
 
 class PlusMinus : public QWidget {
