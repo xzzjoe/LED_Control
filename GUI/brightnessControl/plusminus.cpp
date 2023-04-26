@@ -54,7 +54,7 @@ void PlusMinus::OnMinus() {
 
 void PlusMinus::switchChanged(QString str){
     Q_UNUSED(str); 
-    qCritical("Callback!"); 
+    lbl->setText("Brightness: motion detetced" );\
     updateVal();   
     //TODO: logic for increasing brightness to the preset value
 }
