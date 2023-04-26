@@ -54,6 +54,7 @@ void PlusMinus::OnMinus() {
 
 void PlusMinus::switchChanged(QString str){
     Q_UNUSED(str); 
+    qCritical("Callback!"); 
     updateVal();   
     //TODO: logic for increasing brightness to the preset value
 }
