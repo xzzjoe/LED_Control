@@ -20,7 +20,7 @@ class PlusMinus : public QWidget {
     Q_OBJECT
 
 public:
-    QFileSystemWatcher watcher;
+    QFileSystemWatcher *watcher;
     PlusMinus(QWidget *parent = nullptr);
 
 public slots: 
