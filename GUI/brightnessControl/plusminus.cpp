@@ -70,7 +70,7 @@ void PlusMinus::OnMinus() {
     updateVal();
 }
 
-void switchChanged(){
+void PlusMinus::switchChanged(){
     int fd = open("/sys/class/gpio/gpio66/value",O_RDONLY);
     struct pollfd pfd;
     pfd.fd = fd;
@@ -78,17 +78,16 @@ void switchChanged(){
     int pollRet = poll(&pfd, 1, 100);
     if (pollRet > 0) {
         if (pfd.revents & POLLIN) {
-            int value = PlusMinus::readFileValue(fd);
+            int value = readFileValue(fd);
             debug->setText("Value is now\n" + QString::number(value));
-            if(value == 1) PlusMinus::updateVal(); 
+            if(value == 1) updateVal(); 
 
         }
     }
-    close(fd);
     // Q_UNUSED(str); 
     // debug->setText("Interrupt callback");
-    timer = new QTimer(PlusMinus::this);
-    QObject::connect(timer, SIGNAL(QTimer::timeout()), PlusMinus::this, SLOT(PlusMinus::switchChanged()));
+    timer = new QTimer(this);
+    QObject::connect(timer, SIGNAL(timeout()), this, SLOT(switchChanged()));
     timer->start(1); 
 }
 
