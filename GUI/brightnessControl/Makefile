@@ -128,6 +128,7 @@ DIST          = /ad/eng/courses/ec/ec535/bbb/buildroot-2021.02.1/output/host/mks
 		/ad/eng/courses/ec/ec535/bbb/buildroot-2021.02.1/output/host/mkspecs/features/qt_config.prf \
 		/ad/eng/courses/ec/ec535/bbb/buildroot-2021.02.1/output/host/mkspecs/devices/linux-buildroot-g++/qmake.conf \
 		/ad/eng/courses/ec/ec535/bbb/buildroot-2021.02.1/output/host/mkspecs/features/spec_post.prf \
+		.qmake.stash \
 		/ad/eng/courses/ec/ec535/bbb/buildroot-2021.02.1/output/host/mkspecs/features/exclusive_builds.prf \
 		/ad/eng/courses/ec/ec535/bbb/buildroot-2021.02.1/output/host/mkspecs/features/toolchain.prf \
 		/ad/eng/courses/ec/ec535/bbb/buildroot-2021.02.1/output/host/mkspecs/features/default_pre.prf \
@@ -230,6 +231,7 @@ Makefile: brightnessControl.pro /ad/eng/courses/ec/ec535/bbb/buildroot-2021.02.1
 		/ad/eng/courses/ec/ec535/bbb/buildroot-2021.02.1/output/host/mkspecs/features/qt_config.prf \
 		/ad/eng/courses/ec/ec535/bbb/buildroot-2021.02.1/output/host/mkspecs/devices/linux-buildroot-g++/qmake.conf \
 		/ad/eng/courses/ec/ec535/bbb/buildroot-2021.02.1/output/host/mkspecs/features/spec_post.prf \
+		.qmake.stash \
 		/ad/eng/courses/ec/ec535/bbb/buildroot-2021.02.1/output/host/mkspecs/features/exclusive_builds.prf \
 		/ad/eng/courses/ec/ec535/bbb/buildroot-2021.02.1/output/host/mkspecs/features/toolchain.prf \
 		/ad/eng/courses/ec/ec535/bbb/buildroot-2021.02.1/output/host/mkspecs/features/default_pre.prf \
@@ -321,6 +323,7 @@ Makefile: brightnessControl.pro /ad/eng/courses/ec/ec535/bbb/buildroot-2021.02.1
 /ad/eng/courses/ec/ec535/bbb/buildroot-2021.02.1/output/host/mkspecs/features/qt_config.prf:
 /ad/eng/courses/ec/ec535/bbb/buildroot-2021.02.1/output/host/mkspecs/devices/linux-buildroot-g++/qmake.conf:
 /ad/eng/courses/ec/ec535/bbb/buildroot-2021.02.1/output/host/mkspecs/features/spec_post.prf:
+.qmake.stash:
 /ad/eng/courses/ec/ec535/bbb/buildroot-2021.02.1/output/host/mkspecs/features/exclusive_builds.prf:
 /ad/eng/courses/ec/ec535/bbb/buildroot-2021.02.1/output/host/mkspecs/features/toolchain.prf:
 /ad/eng/courses/ec/ec535/bbb/buildroot-2021.02.1/output/host/mkspecs/features/default_pre.prf:

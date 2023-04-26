@@ -10,6 +10,7 @@
 #include <iostream>
 #include <fstream>
 #include <string>
+#include <QProcess>
 
 
 class PlusMinus : public QWidget {

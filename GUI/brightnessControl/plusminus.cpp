@@ -48,6 +48,8 @@ void PlusMinus::OnMinus() {
 void PlusMinus::updateVal(){
     lbl->setText("Brightness: " + QString::number(val) + "%");
     bar->setValue(val);
+    int dutyCycle = val*1000;
+    QProcess::startDetached("/root/change.sh", QStringList {QString::number(dutyCycle)});
     std::ofstream km;
     km.open(fileName);
     km << std::to_string(val);
