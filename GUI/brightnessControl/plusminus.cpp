@@ -1,6 +1,7 @@
 ﻿//Credit to https://zetcode.com/gui/qt5/firstprograms/ for the initial button plus minus code
 #include "plusminus.h"
 #include <QGridLayout>
+#include <QFileSystemWatcher>
 PlusMinus::PlusMinus(QWidget *parent)
     : QWidget(parent) {
     watcher.addPath ("/sys/class/gpio/gpio66/value");
@@ -22,6 +23,7 @@ PlusMinus::PlusMinus(QWidget *parent)
     grid->addWidget(closeBtn, 2, 0, 2, 1 );
     grid->addWidget(lbl, 0, 1,Qt::AlignCenter);
     grid->addWidget(bar,1,1,3,1,Qt::AlignCenter);
+    grid->addWidget(debug, 1,1,1,1);
     //bar->setGeometry(300,50,75,200);
 //    plsBtn->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Expanding);
 //    minBtn->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Expanding);
@@ -29,6 +31,7 @@ PlusMinus::PlusMinus(QWidget *parent)
     minBtn->setMinimumSize(100,50);
     closeBtn->setMinimumSize(50,25);
     bar->setMinimumSize(75,200);
+    debug->setMinimumSize(50,50);
 
 
 //    grid->setColumnMinimumWidth(1,70);
