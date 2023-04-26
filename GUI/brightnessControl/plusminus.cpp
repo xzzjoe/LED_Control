@@ -55,7 +55,7 @@ PlusMinus::PlusMinus(QWidget *parent)
     
     timer = new QTimer(this);
     QObject::connect(timer, SIGNAL(timeout()), this, SLOT(switchChanged()));
-    timer->start(1);
+    timer->start(1000);
 }
 
 void PlusMinus::OnPlus() {
@@ -75,7 +75,7 @@ void PlusMinus::switchChanged(){
     struct pollfd pfd;
     pfd.fd = fd;
     pfd.events = POLLIN;
-    int pollRet = poll(&pfd, 1, 100);
+    int pollRet = poll(&pfd, 1, 1);
     if (pollRet > 0) {
         if (pfd.revents & POLLIN) {
             int value = readFileValue(fd);
@@ -89,7 +89,7 @@ void PlusMinus::switchChanged(){
     ::close(fd);
     timer = new QTimer(this);
     QObject::connect(timer, SIGNAL(timeout()), this, SLOT(switchChanged()));
-    timer->start(1); 
+    timer->start(1000); 
 }
 
 void PlusMinus::updateVal(){
