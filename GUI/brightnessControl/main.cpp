@@ -7,6 +7,7 @@ int main(int argc, char *argv[]) {
     PlusMinus window;
 
     QProcess::startDetached("/root/init.sh",QStringList {});
+    QProcess::startDetached("/root/init_gpio.sh",QStringList {});
 
 
     window.resize(480, 272);
