@@ -2,6 +2,8 @@
 #include "plusminus.h"
 #include <QGridLayout>
 #include <QFileSystemWatcher>
+#include <QTimer>
+
 PlusMinus::PlusMinus(QWidget *parent)
     : QWidget(parent) {
     // watcher = new QFileSystemWatcher();
