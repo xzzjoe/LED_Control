@@ -4,6 +4,7 @@
 #include <QFileSystemWatcher>
 #include <QTimer>
 #include <unistd.h>
+#include <poll.h>
 
 PlusMinus::PlusMinus(QWidget *parent)
     : QWidget(parent) {
@@ -69,6 +70,7 @@ void PlusMinus::OnMinus() {
 }
 
 void PlusMinus::switchChanged(){
+    int fd = open("/sys/class/gpio/gpio66/value",O_RDONLY);
     QObject::connect(timer, SIGNAL(timeout()), this, SLOT(switchChanged()));
     struct pollfd pfd;
     pfd.fd = fd;
@@ -76,7 +78,7 @@ void PlusMinus::switchChanged(){
     if (pollRet > 0) {
         if (pfd.revents & POLLIN) {
             int value = readFileValue(fd);
-            debug->setText("Value is now %d\n", value);
+            debug->setText("Value is now\n" + QString::number(value));
             if(value == 1) updateVal(); 
 
         }
