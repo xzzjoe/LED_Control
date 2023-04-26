@@ -12,6 +12,7 @@
 #include <string>
 #include <QProcess>
 #include <QTimer>
+#include <QFileSystemWatcher>
 
 
 class PlusMinus : public QWidget {
