@@ -26,7 +26,6 @@ public:
     // QFileSystemWatcher *watcher;
     PlusMinus(QWidget *parent = nullptr);
     int readFileValue(int fd);
-    void switchChanged();
 
 // public slots: 
     
@@ -35,6 +34,7 @@ private slots:
     void OnMinus();
     void OnTimeOut();
     void exit();
+    void switchChanged();
 
 
 private:
