@@ -11,6 +11,7 @@
 #include <fstream>
 #include <string>
 #include <QProcess>
+#include <QTimer>
 
 
 class PlusMinus : public QWidget {
@@ -27,15 +28,19 @@ public slots:
 private slots:
     void OnPlus();
     void OnMinus();
+    void OnTimeOut();
 
 private:
     QLabel *lbl;
     QProgressBar *bar;
+    //Brightness Value, 0-100
     int val;
+    //Number of Running Timeout Timers, Lights shut off when = 0
+    int numTimers;
     //Changes brightness increment of push buttons
     const int brightIncr = 5;
-    //Changes filename that brightness values are written to
-    const char* fileName = "test.txt";
+    //Changes Timeout Duration (in seconds), after which lights shut off
+    const int timeOutDuration = 15;
     void updateVal();
 };
 #endif // PLUSMINUS_H
