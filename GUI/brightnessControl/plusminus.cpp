@@ -50,7 +50,7 @@ void PlusMinus::OnMinus() {
 
 void PlusMinus::switchChanged(QString str){
     Q_UNUSED(str); 
-    
+    update_val();   
     //TODO: logic for increasing brightness to the preset value
 }
 
