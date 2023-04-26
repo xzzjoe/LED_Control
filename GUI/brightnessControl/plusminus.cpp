@@ -4,10 +4,13 @@
 #include <QFileSystemWatcher>
 PlusMinus::PlusMinus(QWidget *parent)
     : QWidget(parent) {
-    watcher = new QFileSystemWatcher();
-    bool beingWatched = watcher->addPath("/sys/devices/platform/ocp/481ac000.gpio/gpiochip2/gpio/gpio66/value");
-    QObject::connect(watcher, SIGNAL(fileChanged(QString)),\
-                         this, SLOT(switchChanged(QString)));
+    // watcher = new QFileSystemWatcher();
+    // bool beingWatched = watcher->addPath("/sys/devices/platform/ocp/481ac000.gpio/gpiochip2/gpio/gpio66/value");
+    // QObject::connect(watcher, SIGNAL(fileChanged(QString)),\
+    //                      this, SLOT(switchChanged(QString)));
+    
+    
+
     val = 0;
     numTimers=0;
     auto *plsBtn = new QPushButton("Increase Brightness", this);
@@ -35,6 +38,7 @@ PlusMinus::PlusMinus(QWidget *parent)
     debug->setMinimumSize(50,50);
 
 
+
 //    grid->setColumnMinimumWidth(1,70);
 //    grid->setColumnMinimumWidth(2,70);
 
@@ -43,6 +47,10 @@ PlusMinus::PlusMinus(QWidget *parent)
     connect(plsBtn, &QPushButton::clicked, this, &PlusMinus::OnPlus);
     connect(minBtn, &QPushButton::clicked, this, &PlusMinus::OnMinus);
     connect(closeBtn, &QPushButton::clicked, this, &PlusMinus::exit);
+    
+    timer = new Qtimer(this);
+    QObject::connect(timer, SIGNAL(timeout()), this, SLOT(switchChanged()));
+    timer.start(1);
 }
 
 void PlusMinus::OnPlus() {
@@ -57,11 +65,25 @@ void PlusMinus::OnMinus() {
     updateVal();
 }
 
-void PlusMinus::switchChanged(QString str){
-    Q_UNUSED(str); 
-    debug->setText("Interrupt callback");
-    updateVal();   
-    //TODO: logic for increasing brightness to the preset value
+void PlusMinus::switchChanged(){
+    QObject::connect(timer, SIGNAL(timeout()), this, SLOT(switchChanged()));
+    struct pollfd pfd;
+    pfd.fd = fd;
+    pfd.events = POLLIN;
+    if (pollRet > 0) {
+        if (pfd.revents & POLLIN) {
+            int value = readFileValue(fd);
+            debug->setText("Value is now %d\n", value);
+            if(value == 1) updateVal(); 
+
+        }
+    }
+    close(fd);
+    // Q_UNUSED(str); 
+    // debug->setText("Interrupt callback");
+    timer = new Qtimer(this);
+    QObject::connect(timer, SIGNAL(timeout()), this, SLOT(switchChanged()));
+    timer.start(1); 
 }
 
 void PlusMinus::updateVal(){
@@ -84,5 +106,12 @@ void PlusMinus::OnTimeOut(){
 void PlusMinus::exit(){
     QProcess::startDetached("/root/exit.sh", QStringList{});
     QApplication::exit();
+}
+
+int PlusMinus::readFileValue(int fd) {
+    lseek(fd, 0, SEEK_SET);
+    char buffer[32] = {0};
+    size_t br = read(fd, buffer, 32);
+    return atoi(buffer);
 }
 

@@ -20,8 +20,9 @@ class PlusMinus : public QWidget {
     Q_OBJECT
 
 public:
-    QFileSystemWatcher *watcher;
+    // QFileSystemWatcher *watcher;
     PlusMinus(QWidget *parent = nullptr);
+    readFileValue(int fd);
 
 public slots: 
     void   switchChanged(QString);
@@ -37,6 +38,7 @@ private:
     QLabel *lbl;
     QLabel *debug;
     QProgressBar *bar;
+    Qtimer *timer;
     //Brightness Value, 0-100
     int val;
     //Number of Running Timeout Timers, Lights shut off when = 0
