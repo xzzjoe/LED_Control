@@ -51,7 +51,7 @@ PlusMinus::PlusMinus(QWidget *parent)
     connect(minBtn, &QPushButton::clicked, this, &PlusMinus::OnMinus);
     connect(closeBtn, &QPushButton::clicked, this, &PlusMinus::exit);
     
-    timer = new Qtimer(this);
+    timer = new QTimer(this);
     QObject::connect(timer, SIGNAL(timeout()), this, SLOT(switchChanged()));
     timer->start(1);
 }
@@ -84,7 +84,7 @@ void PlusMinus::switchChanged(){
     close(fd);
     // Q_UNUSED(str); 
     // debug->setText("Interrupt callback");
-    timer = new Qtimer(this);
+    timer = new QTimer(this);
     QObject::connect(timer, SIGNAL(timeout()), this, SLOT(switchChanged()));
     timer->start(1); 
 }
