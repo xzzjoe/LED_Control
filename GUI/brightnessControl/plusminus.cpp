@@ -86,6 +86,7 @@ void PlusMinus::switchChanged(){
     }
     // Q_UNUSED(str); 
     // debug->setText("Interrupt callback");
+    ::close(fd);
     timer = new QTimer(this);
     QObject::connect(timer, SIGNAL(timeout()), this, SLOT(switchChanged()));
     timer->start(1); 
