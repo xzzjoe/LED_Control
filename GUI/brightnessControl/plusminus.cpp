@@ -10,20 +10,23 @@ PlusMinus::PlusMinus(QWidget *parent)
     numTimers=0;
     auto *plsBtn = new QPushButton("Increase Brightness", this);
     auto *minBtn = new QPushButton("Decrease Brightness", this);
+    auto *closeBtn = new QPushButton("Exit", this);
     lbl = new QLabel("Brightness: " + QString::number(val) + "%", this);
     bar = new QProgressBar(this);
     bar->setValue(val);
     bar->setOrientation(Qt::Vertical);
     auto *grid = new QGridLayout(this);
     grid->addWidget(plsBtn, 0, 0, 2, 1);
-    grid->addWidget(minBtn, 2, 0, 2, 1);
+    grid->addWidget(minBtn, 1, 0, 2, 1);
+    grid->addWidget(closeBtn, 2, 0, 2, 1 );
     grid->addWidget(lbl, 0, 1,Qt::AlignCenter);
     grid->addWidget(bar,1,1,3,1,Qt::AlignCenter);
     //bar->setGeometry(300,50,75,200);
 //    plsBtn->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Expanding);
 //    minBtn->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Expanding);
-    plsBtn->setMinimumSize(200,100);
-    minBtn->setMinimumSize(200,100);
+    plsBtn->setMinimumSize(100,50);
+    minBtn->setMinimumSize(100,50);
+    closeBtn->setMinimumSize(50,25);
     bar->setMinimumSize(75,200);
 
 
@@ -34,6 +37,7 @@ PlusMinus::PlusMinus(QWidget *parent)
 
     connect(plsBtn, &QPushButton::clicked, this, &PlusMinus::OnPlus);
     connect(minBtn, &QPushButton::clicked, this, &PlusMinus::OnMinus);
+    connect(closeBtn, &QPushButton::clicked, this, &PlusMinus::exit);
 }
 
 void PlusMinus::OnPlus() {
@@ -69,5 +73,10 @@ void PlusMinus::updateVal(){
 void PlusMinus::OnTimeOut(){
     numTimers--;
     if(numTimers==0) QProcess::startDetached("/root/change.sh", QStringList {QString::number(0)});
+}
+
+void PlusMinus::exit(){
+    QProcess::startDetached("/root/exit.sh", QStringList{});
+    QApplication::exit();
 }
 
