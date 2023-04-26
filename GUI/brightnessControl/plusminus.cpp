@@ -4,7 +4,7 @@
 #include <QFileSystemWatcher>
 PlusMinus::PlusMinus(QWidget *parent)
     : QWidget(parent) {
-    watcher.addPath ("/sys/class/gpio/gpio66/value");
+    watcher.addPath ("/root/test");
     QObject::connect(&watcher, SIGNAL (fileChanged(QString)),\
                          this, SLOT   (switchChanged(QString)));
     val = 0;
