@@ -18,6 +18,8 @@ PlusMinus::PlusMinus(QWidget *parent)
 
     val = 0;
     numTimers=0;
+    counter = 0;
+    poll_success = 0;
     auto *plsBtn = new QPushButton("Increase Brightness", this);
     auto *minBtn = new QPushButton("Decrease Brightness", this);
     auto *closeBtn = new QPushButton("Exit", this);
@@ -75,7 +77,7 @@ void PlusMinus::switchChanged(){
     struct pollfd pfd;
     pfd.fd = fd;
     pfd.events = POLLIN;
-    int pollRet = poll(&pfd, 1, 1);
+    int pollRet = poll(&pfd, 1, 0);
     if (pollRet > 0) {
         if (pfd.revents & POLLIN) {
             int value = readFileValue(fd);
