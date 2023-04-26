@@ -3,6 +3,7 @@
 #include <QGridLayout>
 #include <QFileSystemWatcher>
 #include <QTimer>
+#include <unistd.h>
 
 PlusMinus::PlusMinus(QWidget *parent)
     : QWidget(parent) {
@@ -52,7 +53,7 @@ PlusMinus::PlusMinus(QWidget *parent)
     
     timer = new Qtimer(this);
     QObject::connect(timer, SIGNAL(timeout()), this, SLOT(switchChanged()));
-    timer.start(1);
+    timer->start(1);
 }
 
 void PlusMinus::OnPlus() {
@@ -85,7 +86,7 @@ void PlusMinus::switchChanged(){
     // debug->setText("Interrupt callback");
     timer = new Qtimer(this);
     QObject::connect(timer, SIGNAL(timeout()), this, SLOT(switchChanged()));
-    timer.start(1); 
+    timer->start(1); 
 }
 
 void PlusMinus::updateVal(){
