@@ -18,8 +18,12 @@ class PlusMinus : public QWidget {
     Q_OBJECT
 
 public:
+    QFileSystemWatcher watcher;
     PlusMinus(QWidget *parent = nullptr);
 
+public slots: 
+    void   switchChanged(QString);
+    
 private slots:
     void OnPlus();
     void OnMinus();

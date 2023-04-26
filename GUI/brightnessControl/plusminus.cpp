@@ -4,6 +4,9 @@
 
 PlusMinus::PlusMinus(QWidget *parent)
     : QWidget(parent) {
+    watcher.addPath ("/sys/class/gpio/gpio66/value");
+    QObject::connect(&watcher, SIGNAL (fileChanged(QString)),\
+                         this, SLOT   (switchChanged(QString)));
     val = 0;
     auto *plsBtn = new QPushButton("Increase Brightness", this);
     auto *minBtn = new QPushButton("Decrease Brightness", this);
@@ -43,6 +46,11 @@ void PlusMinus::OnMinus() {
 
     if(val-brightIncr>=0)val-=brightIncr;
     updateVal();
+}
+
+void PlusMinus::switchChanged(QString str){
+    Q_UNUSED(str); 
+    //TODO: logic for increasing brightness to the preset value
 }
 
 void PlusMinus::updateVal(){
