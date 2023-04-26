@@ -5,6 +5,7 @@
 #include <QTimer>
 #include <unistd.h>
 #include <poll.h>
+#include <fcntl.h>
 
 PlusMinus::PlusMinus(QWidget *parent)
     : QWidget(parent) {
@@ -75,6 +76,7 @@ void PlusMinus::switchChanged(){
     struct pollfd pfd;
     pfd.fd = fd;
     pfd.events = POLLIN;
+    int pollRet = poll(&pfd, 1, 100);
     if (pollRet > 0) {
         if (pfd.revents & POLLIN) {
             int value = readFileValue(fd);
