@@ -30,6 +30,7 @@ private slots:
     void OnPlus();
     void OnMinus();
     void OnTimeOut();
+    void exit();
 
 private:
     QLabel *lbl;
