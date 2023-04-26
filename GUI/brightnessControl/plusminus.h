@@ -35,6 +35,7 @@ private slots:
 
 private:
     QLabel *lbl;
+    QLabel *debug;
     QProgressBar *bar;
     //Brightness Value, 0-100
     int val;

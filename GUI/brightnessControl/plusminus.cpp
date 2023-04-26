@@ -12,6 +12,7 @@ PlusMinus::PlusMinus(QWidget *parent)
     auto *minBtn = new QPushButton("Decrease Brightness", this);
     auto *closeBtn = new QPushButton("Exit", this);
     lbl = new QLabel("Brightness: " + QString::number(val) + "%", this);
+    debug = new QLabel("");
     bar = new QProgressBar(this);
     bar->setValue(val);
     bar->setOrientation(Qt::Vertical);
@@ -54,7 +55,7 @@ void PlusMinus::OnMinus() {
 
 void PlusMinus::switchChanged(QString str){
     Q_UNUSED(str); 
-    lbl->setText("Brightness: motion detetced" );\
+    debug->setText("Interrupt callback");
     updateVal();   
     //TODO: logic for increasing brightness to the preset value
 }
