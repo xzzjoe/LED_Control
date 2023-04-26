@@ -31,8 +31,6 @@ private slots:
     void OnMinus();
     void OnTimeOut();
     void exit();
-    void turnOn();
-    void turnOff();
 
 
 private:
