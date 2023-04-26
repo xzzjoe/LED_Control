@@ -4,7 +4,9 @@
 #include <QFileSystemWatcher>
 PlusMinus::PlusMinus(QWidget *parent)
     : QWidget(parent) {
-    watcher.addPath ("/root/test");
+    watcher = new QFileSystemWatcher();
+    bool beingWatched = watcher->addPath("/root/test");
+    if (beingWatched) qDebug() << "Being watched";
     QObject::connect(&watcher, SIGNAL (fileChanged(QString)),\
                          this, SLOT   (switchChanged(QString)));
     val = 0;
