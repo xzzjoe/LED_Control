@@ -79,13 +79,14 @@ void PlusMinus::switchChanged(){
     if (pollRet > 0) {
         if (pfd.revents & POLLIN) {
             int value = readFileValue(fd);
-            debug->setText("Value is now\n" + QString::number(value));
+            debug->setText("Value is now\n" + QString::number(value) + " checked: " + QString::number(count));
             if(value == 1) updateVal(); 
 
         }
     }
     // Q_UNUSED(str); 
     // debug->setText("Interrupt callback");
+    count ++;
     ::close(fd);
 }
 

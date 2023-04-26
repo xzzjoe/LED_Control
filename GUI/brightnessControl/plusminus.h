@@ -51,5 +51,6 @@ private:
     //Changes Timeout Duration (in seconds), after which lights shut off
     const int timeOutDuration = 15;
     void updateVal();
+    int count;
 };
 #endif // PLUSMINUS_H
