@@ -5,10 +5,10 @@
 PlusMinus::PlusMinus(QWidget *parent)
     : QWidget(parent) {
     watcher = new QFileSystemWatcher();
-    bool beingWatched = watcher->addPath("/root/test");
+    bool beingWatched = watcher->addPath("/sys/devices/platform/ocp/481ac000.gpio/gpiochip2/gpio/gpio66/value");
     if (beingWatched) qDebug() << "Being watched";
-    QObject::connect(&watcher, SIGNAL (fileChanged(QString)),\
-                         this, SLOT   (switchChanged(QString)));
+    QObject::connect(watcher, SIGNAL(fileChanged(QString)),\
+                         this, SLOT(switchChanged(QString)));
     val = 0;
     numTimers=0;
     auto *plsBtn = new QPushButton("Increase Brightness", this);
