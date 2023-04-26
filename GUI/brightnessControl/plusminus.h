@@ -16,7 +16,6 @@
 #include <unistd.h>
 #include <poll.h>
 #include <fcntl.h>
-#include <corecrt_io.h>
 
 
 class PlusMinus : public QWidget {

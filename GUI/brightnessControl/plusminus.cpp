@@ -80,7 +80,7 @@ void switchChanged(){
         if (pfd.revents & POLLIN) {
             int value = PlusMinus::readFileValue(fd);
             debug->setText("Value is now\n" + QString::number(value));
-            if(value == 1) updateVal(); 
+            if(value == 1) PlusMinus::updateVal(); 
 
         }
     }
@@ -88,7 +88,7 @@ void switchChanged(){
     // Q_UNUSED(str); 
     // debug->setText("Interrupt callback");
     timer = new QTimer(PlusMinus::this);
-    QObject::connect(timer, SIGNAL(timeout()), PlusMinus::this, SLOT(switchChanged()));
+    QObject::connect(timer, SIGNAL(QTimer::timeout()), PlusMinus::this, SLOT(PlusMinus::switchChanged()));
     timer->start(1); 
 }
 
