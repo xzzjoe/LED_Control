@@ -19,10 +19,13 @@ PlusMinus::PlusMinus(QWidget *parent)
     val = 0;
     numTimers=0;
     count = 0;
+    off_flag = false;
     poll_success = 0;
     auto *plsBtn = new QPushButton("Increase Brightness", this);
     auto *minBtn = new QPushButton("Decrease Brightness", this);
     auto *closeBtn = new QPushButton("Exit", this);
+    auto *off = new QPushButton("Off", this); 
+    auto *on = new QPushButton("On", this);
     lbl = new QLabel("Brightness: " + QString::number(val) + "%", this);
     debug = new QLabel("");
     bar = new QProgressBar(this);
@@ -35,6 +38,8 @@ PlusMinus::PlusMinus(QWidget *parent)
     grid->addWidget(lbl, 0, 1,Qt::AlignCenter);
     grid->addWidget(bar,1,1,3,1,Qt::AlignCenter);
     grid->addWidget(debug, 1,1,1,1);
+    grid->addWidget(off, 2.5, 0, 2 ,1);
+    grid->addWidget(on, 2.5, 1, 2 ,1);
     //bar->setGeometry(300,50,75,200);
 //    plsBtn->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Expanding);
 //    minBtn->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Expanding);
@@ -43,6 +48,8 @@ PlusMinus::PlusMinus(QWidget *parent)
     closeBtn->setMinimumSize(50,25);
     bar->setMinimumSize(75,200);
     debug->setMinimumSize(50,50);
+    off->setMinimumSize(50, 25);
+    on->setMinimumSize(50, 25);
 
 
 
@@ -54,6 +61,8 @@ PlusMinus::PlusMinus(QWidget *parent)
     connect(plsBtn, &QPushButton::clicked, this, &PlusMinus::OnPlus);
     connect(minBtn, &QPushButton::clicked, this, &PlusMinus::OnMinus);
     connect(closeBtn, &QPushButton::clicked, this, &PlusMinus::exit);
+    connect(off, &QPushButton::clicked, this, &PlusMinus::turnOff);
+    connect(on, &QPushButton::clicked, this, &PlusMinus::turnOn);
     
     timer = new QTimer(this);
     QObject::connect(timer, SIGNAL(timeout()), this, SLOT(switchChanged()));
@@ -82,7 +91,7 @@ void PlusMinus::switchChanged(){
         if (pfd.revents & POLLIN) {
             int value = readFileValue(fd);
             debug->setText("Value is now\n" + QString::number(value) + " checked: " + QString::number(count));
-            if(value == 1) updateVal(); 
+            if(value == 1 && !off_flag) updateVal(); 
 
         }
     }
@@ -113,6 +122,25 @@ void PlusMinus::exit(){
     QProcess::startDetached("/root/exit.sh", QStringList{});
     QApplication::exit();
 }
+
+
+void PlusMinus::turnOff(){
+    lbl->setText("Brightness: " + QString::number(0) + "%");
+    bar->setValue(0);
+    QProcess::startDetached("/root/change.sh", QStringList {QString::number(0)});
+    off_flag = true;
+    QTimer::singleShot(timeOutDuration*1000,this,SLOT(OnTimeOut()));
+}
+
+
+void PlusMinus::offTimer(){
+    off_flag = true;
+}
+
+void PlusMinus::turnOn(){
+    updateVal();
+}
+
 
 int PlusMinus::readFileValue(int fd) {
     lseek(fd, 0, SEEK_SET);

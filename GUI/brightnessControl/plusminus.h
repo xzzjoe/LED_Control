@@ -52,5 +52,6 @@ private:
     const int timeOutDuration = 15;
     void updateVal();
     int count;
+    bool off_flag;
 };
 #endif // PLUSMINUS_H
