@@ -128,7 +128,7 @@ void PlusMinus::turnOff(){
     bar->setValue(0);
     QProcess::startDetached("/root/change.sh", QStringList {QString::number(0)});
     off_flag = true;
-    QTimer::singleShot(timeOutDuration*1000,this,SLOT(OnTimeOut()));
+    QTimer::singleShot(timeOutDuration*1000,this,SLOT(offTimer()));
 }
 
 
