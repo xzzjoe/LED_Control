@@ -37,10 +37,13 @@ private slots:
     void switchChanged();
     void turnOn();
     void turnOff();
+    void incrTimeOut();
+    void decrTimeOut();
 
 
 private:
     QLabel *lbl;
+    QLabel *tlbl;
     QProgressBar *bar;
     QTimer *timer;
     //Brightness Value, 0-100
@@ -49,8 +52,10 @@ private:
     int numTimers;
     //Changes brightness increment of push buttons
     const int brightIncr = 5;
-    //Changes Timeout Duration (in seconds), after which lights shut off
-    const int timeOutDuration = 15;
+    //Changes time increment of push buttons (in seconds)
+    const int timeIncr = 5;
+    //Changes Default Timeout Duration (in seconds), after which lights shut off
+    int timeOutDuration = 15;
     void updateVal();
     int count;
     bool off_flag;

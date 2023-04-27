@@ -21,23 +21,29 @@ PlusMinus::PlusMinus(QWidget *parent)
     numTimers=0;
     count = 0;
     off_flag = false;
-    auto *plsBtn = new QPushButton("Increase Brightness", this);
-    auto *minBtn = new QPushButton("Decrease Brightness", this);
-    auto *closeBtn = new QPushButton("Exit", this);
-    auto *off = new QPushButton("Off", this); 
-    auto *on = new QPushButton("On", this);
-    lbl = new QLabel("Brightness: " + QString::number(val) + "%", this);
+    auto *plsBtn = new QPushButton("Brightness\n+", this);
+    auto *minBtn = new QPushButton("Brightness\n-", this);
+    auto *closeBtn = new QPushButton("Exit\nProgram", this);
+    auto *off = new QPushButton("Light\nOff", this);
+    auto *on = new QPushButton("Light\nOn", this);
+    auto *timeDown = new QPushButton("Standby\n-", this);
+    auto *timeUp = new QPushButton("Standby\n+", this);
+    lbl = new QLabel(QString::number(val) + "%", this);
+    tlbl = new QLabel(QString::number(timeOutDuration) + "s", this);
     bar = new QProgressBar(this);
     bar->setValue(val);
     bar->setOrientation(Qt::Vertical);
     auto *grid = new QGridLayout(this);
-    grid->addWidget(plsBtn, 0, 0, 2, 1);
-    grid->addWidget(minBtn, 1, 0, 2, 1);
-    grid->addWidget(closeBtn, 4, 0, 2, 1 );
-    grid->addWidget(lbl, 0, 1,Qt::AlignCenter);
-    grid->addWidget(bar,1,1,3,1,Qt::AlignCenter);
-    grid->addWidget(off, 3, 0, 2 ,1);
-    grid->addWidget(on, 2, 0, 2 ,1);
+    grid->addWidget(plsBtn, 0, 1, 1, 1);
+    grid->addWidget(minBtn, 2, 1, 1, 1);
+    grid->addWidget(closeBtn, 2, 0);
+    grid->addWidget(lbl, 1, 1,Qt::AlignCenter);
+    grid->addWidget(tlbl, 1, 2,Qt::AlignCenter);
+    grid->addWidget(bar,0,3,3,1,Qt::AlignCenter);
+    grid->addWidget(off, 1, 0);
+    grid->addWidget(on, 0, 0);
+    grid->addWidget(timeDown, 2, 2);
+    grid->addWidget(timeUp, 0, 2);
     //bar->setGeometry(300,50,75,200);
 //    plsBtn->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Expanding);
 //    minBtn->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Expanding);
@@ -48,9 +54,17 @@ PlusMinus::PlusMinus(QWidget *parent)
     off->setMinimumSize(25, 25);
     on->setMinimumSize(25, 25);
 
+    //Coloring Stuff
+    on->setStyleSheet("QPushButton {background:rgb(230, 226, 122)}");
+    off->setStyleSheet("QPushButton {background:rgb(230, 226, 122)}");
+    closeBtn->setStyleSheet("QPushButton {background:rgb(222, 126, 115)}");
+    plsBtn->setStyleSheet("QPushButton {background:rgb(84, 222, 240)}");
+    minBtn->setStyleSheet("QPushButton {background:rgb(84, 222, 240)}");
+    timeDown->setStyleSheet("QPushButton {background:rgb(110, 222, 104)}");
+    timeUp->setStyleSheet("QPushButton {background:rgb(110, 222, 104)}");
 
 
-//    grid->setColumnMinimumWidth(1,70);
+//grid->setColumnMinimumWidth(3,150);
 //    grid->setColumnMinimumWidth(2,70);
 
     setLayout(grid);
@@ -60,6 +74,8 @@ PlusMinus::PlusMinus(QWidget *parent)
     connect(closeBtn, &QPushButton::clicked, this, &PlusMinus::exit);
     connect(off, &QPushButton::clicked, this, &PlusMinus::turnOff);
     connect(on, &QPushButton::clicked, this, &PlusMinus::turnOn);
+    connect(timeDown, &QPushButton::clicked, this, &PlusMinus::decrTimeOut);
+    connect(timeUp, &QPushButton::clicked, this, &PlusMinus::incrTimeOut);
     
     timer = new QTimer(this);
     QObject::connect(timer, SIGNAL(timeout()), this, SLOT(switchChanged()));
@@ -96,20 +112,22 @@ void PlusMinus::switchChanged(){
 }
 
 void PlusMinus::updateVal(){
-    lbl->setText("Brightness: " + QString::number(val) + "%");
+    lbl->setText(QString::number(val) + "%");
     bar->setValue(val);
     int dutyCycle = val*1000;
     QProcess::startDetached("/root/change.sh", QStringList {QString::number(dutyCycle)});
     //Every time updateVal is called, a single shot time out timer is created. Since they'll
     //overlap, and we only want the lights to turn off after the last timer expires, we keep
     //track of the number of timers and only turn off the lights once no timers are left.
-    numTimers++;
-    QTimer::singleShot(timeOutDuration*1000,this,SLOT(OnTimeOut()));
+    if(timeOutDuration>0){
+        numTimers++;
+        QTimer::singleShot(timeOutDuration*1000,this,SLOT(OnTimeOut()));
+    }
 
 }
 void PlusMinus::OnTimeOut(){
     numTimers--;
-    if(numTimers==0) QProcess::startDetached("/root/change.sh", QStringList {QString::number(0)});
+    if((numTimers==0)&&(timeOutDuration>0)) QProcess::startDetached("/root/change.sh", QStringList {QString::number(0)});
 }
 
 void PlusMinus::exit(){
@@ -119,7 +137,7 @@ void PlusMinus::exit(){
 
 
 void PlusMinus::turnOff(){
-    lbl->setText("Brightness: " + QString::number(0) + "%");
+    lbl->setText(QString::number(0) + "%");
     bar->setValue(0);
     QProcess::startDetached("/root/change.sh", QStringList {QString::number(0)});
     off_flag = true;
@@ -138,5 +156,22 @@ int PlusMinus::readFileValue(int fd) {
     char buffer[32] = {0};
     size_t br = read(fd, buffer, 32);
     return atoi(buffer);
+}
+
+void PlusMinus::incrTimeOut(){
+    timeOutDuration+=timeIncr;
+    tlbl->setText(QString::number(timeOutDuration) + "s");
+    if(timeOutDuration>0){
+        numTimers++;
+        QTimer::singleShot(timeOutDuration*1000,this,SLOT(OnTimeOut()));
+    }
+}
+void PlusMinus::decrTimeOut(){
+    if(timeOutDuration-timeIncr>=0) timeOutDuration-=timeIncr;
+    if(timeOutDuration>0){
+        tlbl->setText(QString::number(timeOutDuration) + "s");
+    }else{
+        tlbl->setText("None");
+    }
 }
 
