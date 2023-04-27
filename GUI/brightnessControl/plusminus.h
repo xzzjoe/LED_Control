@@ -35,6 +35,9 @@ private slots:
     void OnTimeOut();
     void exit();
     void switchChanged();
+    void turnOn();
+    void turnOff();
+    void offTimer();
 
 
 private:

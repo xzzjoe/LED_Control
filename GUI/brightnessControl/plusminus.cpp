@@ -20,7 +20,6 @@ PlusMinus::PlusMinus(QWidget *parent)
     numTimers=0;
     count = 0;
     off_flag = false;
-    poll_success = 0;
     auto *plsBtn = new QPushButton("Increase Brightness", this);
     auto *minBtn = new QPushButton("Decrease Brightness", this);
     auto *closeBtn = new QPushButton("Exit", this);
