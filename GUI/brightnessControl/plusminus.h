@@ -37,12 +37,10 @@ private slots:
     void switchChanged();
     void turnOn();
     void turnOff();
-    void offTimer();
 
 
 private:
     QLabel *lbl;
-    QLabel *debug;
     QProgressBar *bar;
     QTimer *timer;
     //Brightness Value, 0-100

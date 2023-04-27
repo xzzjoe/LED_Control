@@ -26,7 +26,6 @@ PlusMinus::PlusMinus(QWidget *parent)
     auto *off = new QPushButton("Off", this); 
     auto *on = new QPushButton("On", this);
     lbl = new QLabel("Brightness: " + QString::number(val) + "%", this);
-    debug = new QLabel("");
     bar = new QProgressBar(this);
     bar->setValue(val);
     bar->setOrientation(Qt::Vertical);
@@ -36,9 +35,8 @@ PlusMinus::PlusMinus(QWidget *parent)
     grid->addWidget(closeBtn, 4, 0, 2, 1 );
     grid->addWidget(lbl, 0, 1,Qt::AlignCenter);
     grid->addWidget(bar,1,1,3,1,Qt::AlignCenter);
-    grid->addWidget(debug, 1,1,1,1);
-    grid->addWidget(off, 2, 0, 2 ,1);
-    grid->addWidget(on, 3, 0, 2 ,1);
+    grid->addWidget(off, 3, 0, 2 ,1);
+    grid->addWidget(on, 2, 0, 2 ,1);
     //bar->setGeometry(300,50,75,200);
 //    plsBtn->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Expanding);
 //    minBtn->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Expanding);
@@ -46,7 +44,6 @@ PlusMinus::PlusMinus(QWidget *parent)
     minBtn->setMinimumSize(100,50);
     closeBtn->setMinimumSize(50,25);
     bar->setMinimumSize(75,200);
-    debug->setMinimumSize(50,50);
     off->setMinimumSize(25, 25);
     on->setMinimumSize(25, 25);
 
@@ -88,14 +85,11 @@ void PlusMinus::switchChanged(){
     int pollRet = poll(&pfd, 1, 0);
     if (pollRet > 0) {
         if (pfd.revents & POLLIN) {
-            int value = readFileValue(fd);
-            debug->setText("Value is now\n" + QString::number(value) + " checked: " + QString::number(count));
+            int value = readFileValue(fd);\
             if(value == 1 && !off_flag) updateVal(); 
 
         }
     }
-    // Q_UNUSED(str); 
-    // debug->setText("Interrupt callback");
     count ++;
     ::close(fd);
 }
@@ -128,15 +122,12 @@ void PlusMinus::turnOff(){
     bar->setValue(0);
     QProcess::startDetached("/root/change.sh", QStringList {QString::number(0)});
     off_flag = true;
-    QTimer::singleShot(timeOutDuration*1000,this,SLOT(offTimer()));
 }
 
 
-void PlusMinus::offTimer(){
-    off_flag = true;
-}
 
 void PlusMinus::turnOn(){
+    off_flag = false;
     updateVal();
 }
 
