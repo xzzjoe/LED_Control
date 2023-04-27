@@ -1,4 +1,5 @@
 ﻿//Credit to https://zetcode.com/gui/qt5/firstprograms/ for the initial button plus minus code
+//final
 #include "plusminus.h"
 #include <QGridLayout>
 #include <QFileSystemWatcher>
