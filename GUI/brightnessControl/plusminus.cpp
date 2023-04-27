@@ -33,12 +33,12 @@ PlusMinus::PlusMinus(QWidget *parent)
     auto *grid = new QGridLayout(this);
     grid->addWidget(plsBtn, 0, 0, 2, 1);
     grid->addWidget(minBtn, 1, 0, 2, 1);
-    grid->addWidget(closeBtn, 2, 0, 2, 1 );
+    grid->addWidget(closeBtn, 3, 0, 2, 1 );
     grid->addWidget(lbl, 0, 1,Qt::AlignCenter);
     grid->addWidget(bar,1,1,3,1,Qt::AlignCenter);
     grid->addWidget(debug, 1,1,1,1);
-    grid->addWidget(off, 2.5, 0, 2 ,1);
-    grid->addWidget(on, 2.5, 1, 2 ,1);
+    grid->addWidget(off, 2, 0, 2 ,1);
+    grid->addWidget(on, 2, 1, 2 ,1);
     //bar->setGeometry(300,50,75,200);
 //    plsBtn->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Expanding);
 //    minBtn->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Expanding);
@@ -47,8 +47,8 @@ PlusMinus::PlusMinus(QWidget *parent)
     closeBtn->setMinimumSize(50,25);
     bar->setMinimumSize(75,200);
     debug->setMinimumSize(50,50);
-    off->setMinimumSize(50, 25);
-    on->setMinimumSize(50, 25);
+    off->setMinimumSize(25, 25);
+    on->setMinimumSize(25, 25);
 
 
 
